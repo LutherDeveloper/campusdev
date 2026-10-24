@@ -1,0 +1,8 @@
+import Link from 'next/link';
+import { signUp } from '@/app/actions/auth';
+import { ArrowLeft, Code2 } from 'lucide-react';
+
+export default async function RegisterPage({ searchParams }: { searchParams: Promise<{error?:string}> }) {
+  const { error } = await searchParams;
+  return <main className="shell"><Link href="/" className="brand">CAMPUS<span>DEV</span></Link><section className="panel form"><Link href="/" className="project-meta row"><ArrowLeft size={14}/> Kembali ke beranda</Link><div className="eyebrow" style={{marginTop:24}}><Code2 size={14}/> Join the community</div><h1>Buat akun kamu.</h1><p className="muted">Mulai temukan tim dan bangun portofolio bersama.</p>{error&&<div className="notice error">{error}</div>}<form action={signUp}><div className="field"><label htmlFor="fullName">Nama lengkap</label><input className="input" id="fullName" name="fullName" autoComplete="name" required minLength={2} maxLength={80} placeholder="Nama kamu"/></div><div className="field"><label htmlFor="email">Email</label><input className="input" id="email" name="email" type="email" autoComplete="email" required placeholder="kamu@email.com"/></div><div className="field"><label htmlFor="password">Password</label><input className="input" id="password" name="password" type="password" autoComplete="new-password" required minLength={8} placeholder="Minimal 8 karakter"/></div><button className="btn primary" style={{width:'100%',marginTop:8}} type="submit">Buat akun</button></form><p className="muted" style={{fontSize:13}}>Sudah punya akun? <Link href="/auth/login" style={{color:'#a9b8ff'}}>Masuk</Link></p><p className="project-meta">Dengan mendaftar, gunakan identitas dan konten yang menghormati anggota lain.</p></section></main>;
+}

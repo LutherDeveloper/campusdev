@@ -1,0 +1,15 @@
+import Link from 'next/link';
+import { ArrowRight, Code2, Users, Trophy, Sparkles, Globe2, Github } from 'lucide-react';
+import { createClient } from '@/lib/supabase/server';
+
+export default async function Home() {
+  let signedIn = false;
+  try { const supabase = await createClient(); const { data } = await supabase.auth.getClaims(); signedIn = Boolean(data?.claims?.sub); } catch {}
+  return <main className="shell">
+    <header className="topbar"><Link className="brand" href="/">CAMPUS<span>DEV</span><span style={{color:'#9aa4bb'}}> .</span></Link><nav className="navlinks">{signedIn ? <Link className="btn primary" href="/dashboard">Buka dashboard <ArrowRight size={16}/></Link> : <><Link className="btn" href="/auth/login">Masuk</Link><Link className="btn primary" href="/auth/register">Gabung gratis <ArrowRight size={16}/></Link></>}</nav></header>
+    <section className="hero"><div className="eyebrow"><Sparkles size={14}/> The next generation builds together</div><h1>Ide besar nggak harus dibangun <span className="gradient">sendirian.</span></h1><p className="muted" style={{fontSize:18,maxWidth:660}}>Temukan partner proyek, pamerkan karya, dan bertumbuh bersama mahasiswa teknologi dari berbagai kampus. Dari proyek pertama sampai peluang karier berikutnya.</p><div className="row" style={{marginTop:25,flexWrap:'wrap'}}><Link className="btn primary" href={signedIn?'/dashboard':'/auth/register'}>Mulai bangun sesuatu <ArrowRight size={17}/></Link><a className="btn" href="#fitur">Jelajahi fitur</a></div><p className="project-meta" style={{marginTop:16}}>Dibangun untuk mahasiswa SI, Informatika, Cybersecurity, Data, dan bidang teknologi lainnya.</p></section>
+    <section id="fitur" className="grid" style={{marginTop:18}}><article className="card"><Users size={25} color="#91a7ff"/><h3>Find your team</h3><p className="muted">Temukan teman yang melengkapi skill kamu untuk mengerjakan ide dan proyek nyata.</p></article><article className="card"><Code2 size={25} color="#b59bff"/><h3>Show your work</h3><p className="muted">Bangun portofolio yang memperlihatkan apa yang benar-benar bisa kamu buat.</p></article><article className="card"><Trophy size={25} color="#f6ca75"/><h3>Build your reputation</h3><p className="muted">Ikuti tantangan, kolaborasi, dan tunjukkan progres bersama komunitas.</p></article></section>
+    <section className="panel" style={{marginTop:18,display:'flex',justifyContent:'space-between',alignItems:'center',gap:20,flexWrap:'wrap'}}><div><div className="eyebrow"><Globe2 size={14}/> Indonesia first · Global next</div><h2 style={{marginBottom:7}}>Skill kamu layak dilihat.</h2><p className="muted" style={{margin:0}}>Mulai dari komunitas kampus, tumbuh bersama dunia.</p></div><div className="row"><Github size={18} color="#9aa4bb"/><span className="project-meta">Your next project starts here.</span></div></section>
+    <footer className="footer">CAMPUSDEV © {new Date().getFullYear()} · Build together. Show your skills. Get discovered.</footer>
+  </main>;
+}
